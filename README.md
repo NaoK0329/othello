@@ -36,3 +36,4 @@ python3 -m unittest -v
 ## 開発に参加するには
 
 [CONTRIBUTING.md](CONTRIBUTING.md) を読んでください。
+練習用の課題は [docs/PRACTICE.md](docs/PRACTICE.md) にあります。
