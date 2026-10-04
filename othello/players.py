@@ -69,6 +69,8 @@ class GreedyAI:
 
     def __init__(self, name="欲張りAI", rng=None):
         self.name = name
+        # 同点で常に同じ手を選ぶと、毎回同じ展開になって読まれやすい。
+        # rng を外から渡せるのは、テストでシードを固定して結果を再現するため。
         self.rng = rng or random.Random()
 
     def choose_move(self, board, color):
