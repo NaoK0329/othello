@@ -63,8 +63,8 @@ def play(players, board=None):
     print(render(board))
     winner = board.winner()
     diff = abs(board.count(BLACK) - board.count(WHITE))
-    print("引き分け！" if winner == EMPTY else
-    f"{NAMES[winner]}の勝ち！ ({diff}石差)")
+    print("引き分け！" if winner == EMPTY 
+        else f"{NAMES[winner]}の勝ち！ ({diff}石差)")
     return board
 
 
