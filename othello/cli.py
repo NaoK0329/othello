@@ -3,7 +3,9 @@
 import argparse
 
 from .board import BLACK, EMPTY, SIZE, WHITE, Board
-from .players import COLUMNS, HumanPlayer, QuitGame, RandomAI, format_position
+from .players import COLUMNS, GreedyAI, HumanPlayer, QuitGame, RandomAI, format_position
+
+AI_TYPES = {"random": RandomAI, "greedy": GreedyAI}
 
 SYMBOLS = {BLACK: "●", WHITE: "○", EMPTY: "・"}
 NAMES = {BLACK: "黒●", WHITE: "白○"}
@@ -50,12 +52,18 @@ def play(players, board=None):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="ターミナルで遊ぶオセロ")
-    parser.add_argument("--ai", action="store_true", help="白をランダムAIにする")
+    parser.add_argument(
+        "--ai",
+        nargs="?",
+        const="random",
+        choices=AI_TYPES,
+        help="白をAIにする (random: ランダム / greedy: 欲張り。省略時は random)",
+    )
     args = parser.parse_args(argv)
 
     players = {
         BLACK: HumanPlayer(NAMES[BLACK]),
-        WHITE: RandomAI() if args.ai else HumanPlayer(NAMES[WHITE]),
+        WHITE: AI_TYPES[args.ai]() if args.ai else HumanPlayer(NAMES[WHITE]),
     }
     try:
         play(players)
