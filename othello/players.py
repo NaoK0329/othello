@@ -62,3 +62,22 @@ class RandomAI:
     def choose_move(self, board, color):
         """置ける場所からランダムに1つ選ぶ。"""
         return self.rng.choice(board.valid_moves(color))
+
+
+class GreedyAI:
+    """一番多く石を裏返せる場所を選ぶ AI。同点ならランダム。"""
+
+    def __init__(self, name="欲張りAI", rng=None):
+        self.name = name
+        # 同点で常に同じ手を選ぶと、毎回同じ展開になって読まれやすい。
+        # rng を外から渡せるのは、テストでシードを固定して結果を再現するため。
+        self.rng = rng or random.Random()
+
+    def choose_move(self, board, color):
+        """裏返せる数が最大の場所から1つ選ぶ。"""
+        scores = {
+            move: len(board.flips_for(*move, color))
+            for move in board.valid_moves(color)
+        }
+        best = max(scores.values())
+        return self.rng.choice([m for m, s in scores.items() if s == best])

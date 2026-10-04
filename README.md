@@ -8,6 +8,7 @@ Python の標準ライブラリだけで動きます（追加インストール�
 ```bash
 python3 -m othello          # 人 vs 人
 python3 -m othello --ai     # 人(黒) vs ランダムAI(白)
+python3 -m othello --ai greedy  # 人(黒) vs 欲張りAI(白)
 ```
 
 `d3` のように「列(a-h)＋行(1-8)」で石を置く場所を入力します。`q` で終了。
