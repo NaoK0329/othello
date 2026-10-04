@@ -1,8 +1,9 @@
 import random
 import unittest
 
-from othello.board import BLACK, Board
+from othello.board import BLACK, EMPTY, WHITE, Board
 from othello.players import (
+    GreedyAI,
     HumanPlayer,
     QuitGame,
     RandomAI,
@@ -42,6 +43,21 @@ class TestRandomAI(unittest.TestCase):
         ai = RandomAI(rng=random.Random(0))
         for _ in range(20):
             self.assertIn(ai.choose_move(board, BLACK), board.valid_moves(BLACK))
+
+
+class TestGreedyAI(unittest.TestCase):
+    def test_chooses_move_that_flips_most(self):
+        board = Board()
+        board.grid = [[EMPTY] * 8 for _ in range(8)]
+        # (0,3) なら白2つ、(4,7) なら白1つ裏返せる
+        board.grid[0][0] = BLACK
+        board.grid[0][1] = WHITE
+        board.grid[0][2] = WHITE
+        board.grid[2][7] = BLACK
+        board.grid[3][7] = WHITE
+        self.assertCountEqual(board.valid_moves(BLACK), [(0, 3), (4, 7)])
+        ai = GreedyAI(rng=random.Random(0))
+        self.assertEqual(ai.choose_move(board, BLACK), (0, 3))
 
 
 if __name__ == "__main__":
